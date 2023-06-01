@@ -8,13 +8,9 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route("/about")
-def about():
-    return render_template("about.html")
-
 @app.route('/single')
 def single():
-    return render_template('single.html')\
+    return render_template('single.html')
 
 @app.route('/contact')
 def contact():
