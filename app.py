@@ -4,6 +4,7 @@ from flask import Flask, render_template, url_for
 app = Flask(__name__)
 
 
+@app.route("/index")
 @app.route("/")
 def index():
     return render_template('index.html')
@@ -19,6 +20,10 @@ def contact():
 @app.route('/archive')
 def archive():
     return render_template('archive.html')
+
+@app.route('/vologda')
+def vologda():
+    return render_template('vologda.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
