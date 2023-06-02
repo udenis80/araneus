@@ -25,5 +25,13 @@ def archive():
 def vologda():
     return render_template('vologda.html')
 
+@app.route('/kazan')
+def kazan():
+    return render_template('kazan.html')
+
+@app.route('/ufa')
+def ufa():
+    return render_template('ufa.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
