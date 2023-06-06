@@ -33,5 +33,9 @@ def kazan():
 def ufa():
     return render_template('ufa.html')
 
+@app.route('/razan')
+def razan():
+    return render_template('razan.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
