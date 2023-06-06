@@ -37,5 +37,9 @@ def ufa():
 def razan():
     return render_template('razan.html')
 
+@app.route('/yola')
+def yola():
+    return render_template('yola.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
