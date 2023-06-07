@@ -13,7 +13,13 @@
     <!-- Basic Page Needs
   ================================================== -->
     <meta charset="utf-8">
-    <title>Araneus-M</title>
+    {% block title %}
+        {% if title %}
+            <title>Araneus - {{ title }}</title>
+        {% else %}
+            <title>Araneus</title>
+        {% endif %}
+    {% endblock title %}
     <meta name="description" content="Free Responsive Html5 Css3 Templates | Zerotheme.com">
     <meta name="author" content="https://www.zerotheme.com">
 
@@ -74,5 +80,6 @@
 
             {% endblock content %}
             {% include 'include/footer.html' %}
+        </div>
     </body>
 </html>

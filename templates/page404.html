@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
+    {{ super() }}
+    <p align="center">нет такой страницы, <a href="{{ url_for('index') }}">вернуться на главную</a></p>
+{% endblock %}
