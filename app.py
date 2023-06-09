@@ -41,7 +41,7 @@ def profile(username):
     if 'userLogged' not in session or session['userLogged'] != username:
         abort(401)
 
-    return f'Профиль пользователья: {username}'
+    return f'пользователь админ {username}'
 
 
 
@@ -61,7 +61,7 @@ def index():
     return render_template('index.html', title='Главная')
 
 @app.teardown_appcontext
-def close_db():
+def close_db(error):
     """Закрываем соединение с БД, если оно было установлено"""
     if hasattr(g, 'link_db'):
         g.link_db.close()
