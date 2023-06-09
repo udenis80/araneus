@@ -1,6 +1,7 @@
 import os
 import sqlite3
 
+from FDataBase import FDataBase
 from flask import Flask, render_template, url_for, request, flash, session, redirect, abort, g
 
 #Конфигурация
@@ -41,7 +42,7 @@ def profile(username):
     if 'userLogged' not in session or session['userLogged'] != username:
         abort(401)
 
-    return f'пользователь админ {username}'
+    return f'ghbdtn {username}'
 
 
 
@@ -104,6 +105,23 @@ def razan():
 @app.route('/yola')
 def yola():
     return render_template('yola.html')
+
+@app.route("/add_post", methods=["POST", "GET"])
+def addPost():
+    db = get_db()
+    dbase = FDataBase(db)
+
+    if request.method == "POST":
+        if len(request.form['name']) > 4 and len(request.form['post']) > 10:
+            res = dbase.addPost(request.form['name'], request.form['post'], request.form['url'])
+            if not res:
+                flash('Ошибка добавления статьи', category = 'error')
+            else:
+                flash('Статья добавлена успешно', category='success')
+        else:
+            flash('Ошибка добавления статьи', category='error')
+
+    return render_template('add_post.html', title="Добавление статьи")
 
 if __name__ == '__main__':
     app.run(debug=True)
