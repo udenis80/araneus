@@ -1,8 +1,7 @@
 import os
 import sqlite3
 
-from flask import Flask, render_template, url_for, request, flash, session, redirect, abort
-
+from flask import Flask, render_template, url_for, request, flash, session, redirect, abort, g
 
 #Конфигурация
 DATABASE = '/tmp/araneus.db'
@@ -25,6 +24,13 @@ def create_db():
         db.cursor().executescript(f.read())
     db.commit()
     db.close()
+
+def get_db():
+    """Соединение с БД если оно еще не установлено"""
+    if not hasattr(g, 'link_db'):
+       g.link_db = connect_db()
+    return g.link_db
+
 
 @app.errorhandler(404)
 def pageNotFound(error):
@@ -51,7 +57,14 @@ def login():
 @app.route("/index")
 @app.route("/")
 def index():
+    db = get_db()
     return render_template('index.html', title='Главная')
+
+@app.teardown_appcontext
+def close_db():
+    """Закрываем соединение с БД, если оно было установлено"""
+    if hasattr(g, 'link_db'):
+        g.link_db.close()
 
 @app.route('/single')
 def single():
