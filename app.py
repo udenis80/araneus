@@ -1,7 +1,8 @@
 import os
 import sqlite3
-
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from FDataBase import FDataBase
+from django.contrib.auth.decorators import login_required
 from flask import Flask, render_template, url_for, request, flash, session, redirect, abort, g
 
 #Конфигурация
@@ -55,7 +56,7 @@ def pageNotFound(error):
 def profile(username):
     if 'userLogged' not in session or session['userLogged'] != username:
         abort(401)
-    return f'ghbdtn {username}'
+    return render_template('inlogin.html', title='Добро пожаловать')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -121,6 +122,7 @@ def yola():
     return render_template('yola.html')
 
 @app.route("/add_post", methods=["POST", "GET"])
+@login_required
 def addPost():
     db = get_db()
     dbase = FDataBase(db)
@@ -136,6 +138,13 @@ def addPost():
             flash('Ошибка добавления статьи', category='error')
 
     return render_template('add_post.html', title="Добавление статьи")
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    flash("Вы вышли из аккаунта", "success")
+    return redirect(url_for('login'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
