@@ -32,7 +32,21 @@ def get_db():
        g.link_db = connect_db()
     return g.link_db
 
+@app.teardown_appcontext
+def close_db(error):
+    """Закрываем соединение с БД, если оно было установлено"""
+    if hasattr(g, 'link_db'):
+        g.link_db.close()
 
+dbase = None
+@app.before_request
+def before_request():
+    """Установление соединения с БД перед выполнением запроса"""
+    global dbase
+    db = get_db()
+    dbase = FDataBase(db)
+
+"""Обработка ошибки 404"""
 @app.errorhandler(404)
 def pageNotFound(error):
     return render_template('page404.html', title='Нет такой страницы')
@@ -41,10 +55,7 @@ def pageNotFound(error):
 def profile(username):
     if 'userLogged' not in session or session['userLogged'] != username:
         abort(401)
-
     return f'ghbdtn {username}'
-
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -61,12 +72,6 @@ def index():
     db = get_db()
     return render_template('index.html', title='Главная')
 
-@app.teardown_appcontext
-def close_db(error):
-    """Закрываем соединение с БД, если оно было установлено"""
-    if hasattr(g, 'link_db'):
-        g.link_db.close()
-
 @app.route('/single')
 def single():
     return render_template('single.html', title='О нас')
@@ -81,6 +86,15 @@ def contact():
             flash('Ошибка')
 
     return render_template('contact.html', title='Контакты')
+
+
+@app.route("/post/<alias>")
+def showPost(alias):
+    title, post = dbase.getPost(alias)
+    if not title:
+        abort(404)
+
+    return render_template('post.html', title=title, post=post)
 
 @app.route('/archive')
 def archive():
