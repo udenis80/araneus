@@ -40,7 +40,6 @@ def close_db(error):
         g.link_db.close()
 
 dbase = None
-@app.before_request
 def before_request():
     """Установление соединения с БД перед выполнением запроса"""
     global dbase
@@ -71,7 +70,7 @@ def login():
 @app.route("/")
 def index():
     db = get_db()
-    return render_template('index.html', title='Главная')
+    return render_template('index.html', posts=dbase.getPostsAnonce(), title='Главная')
 
 @app.route('/single')
 def single():
@@ -122,7 +121,6 @@ def yola():
     return render_template('yola.html')
 
 @app.route("/add_post", methods=["POST", "GET"])
-@login_required
 def addPost():
     db = get_db()
     dbase = FDataBase(db)
