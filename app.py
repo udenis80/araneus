@@ -2,7 +2,6 @@ import os
 import sqlite3
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from FDataBase import FDataBase
-from django.contrib.auth.decorators import login_required
 from flask import Flask, render_template, url_for, request, flash, session, redirect, abort, g
 
 """миграции в консоли"""
@@ -54,21 +53,15 @@ def before_request():
 """Обработка ошибки 404"""
 @app.errorhandler(404)
 def pageNotFound(error):
-    return render_template('page404.html', title='Нет такой страницы')
-
-@app.route('/profile/<username>')
-def profile(username):
-    if 'userLogged' not in session or session['userLogged'] != username:
-        abort(401)
-    return render_template('inlogin.html', title='Добро пожаловать')
+    return render_template('page404.html',  menu=dbase.getMenu(), title='Нет такой страницы')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'userLogged' in session:
-        return redirect(url_for('profile', username=session['userLogged']))
+        return redirect(url_for('addPost', username=session['userLogged']))
     elif request.method == 'POST' and request.form['username'] == 'Anton' and request.form['psw'] == '123':
         session['userLogged'] = request.form['username']
-        return redirect(url_for('profile', username=session['userLogged']))
+        return redirect(url_for('addPost', username=session['userLogged']))
     return render_template('login.html', menu=dbase.getMenu(), title='Авторизация')
 
 @app.route("/index")
@@ -77,9 +70,9 @@ def index():
     db = get_db()
     return render_template('index.html', menu=dbase.getMenu(),  posts=dbase.getPostsAnonce(), title='Главная')
 
-@app.route('/single')
-def single():
-    return render_template('single.html',menu=dbase.getMenu(),  title='О нас')
+@app.route('/about')
+def about():
+    return render_template('about.html',menu=dbase.getMenu(),  title='О нас')
 
 @app.route('/contact', methods=['POST', 'GET'])
 def contact():
@@ -100,10 +93,6 @@ def showPost(alias):
         abort(404)
 
     return render_template('post.html',  menu=dbase.getMenu(), title=title, post=post)
-
-@app.route('/archive')
-def archive():
-    return render_template('archive.html',  menu=dbase.getMenu(),  title='Блог')
 
 @app.route('/vologda')
 def vologda():
