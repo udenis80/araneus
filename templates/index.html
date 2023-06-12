@@ -12,11 +12,11 @@
                                             <li>
                                             <a class="portfolio-box zoom-effect"
                                                href="{{ url_for('showPost', alias=p.url) }}">
-                                                <img src="static/images/kazancube.jpg" class="img-responsive" alt="">
+                                                <img src="{{ url_for('static', filename='images/ufa.jpg') }}" class="img-responsive" alt="">
                                                 <div class="portfolio-box-caption">
                                                     <div class="portfolio-box-caption-content">
                                                         <div class="project-name">
-                                                            <span>{{ p.title }}</span>
+                                                            <span>{{ p.title|truncate(30, True) }}</span>
                                                         </div>
                                                     </div>
                                                 </div>
