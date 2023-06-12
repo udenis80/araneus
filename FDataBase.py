@@ -9,6 +9,16 @@ class FDataBase:
         self.__db = db
         self.__cur = db.cursor()
 
+    def getMenu(self):
+        sql = '''SELECT * FROM mainmenu'''
+        try:
+            self.__cur.execute(sql)
+            res = self.__cur.fetchall()
+            if res: return res
+        except:
+            print("Ошибка чтения из БД")
+        return []
+
     def addPost(self, title, text, image, url):
         try:
             self.__cur.execute(f"SELECT COUNT() as `count` FROM posts WHERE url LIKE '{url}'")

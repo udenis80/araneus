@@ -5,6 +5,10 @@ from FDataBase import FDataBase
 from django.contrib.auth.decorators import login_required
 from flask import Flask, render_template, url_for, request, flash, session, redirect, abort, g
 
+"""миграции в консоли"""
+"""from app import create_db()"""
+"""create_db"""
+
 #Конфигурация
 DATABASE = '/tmp/araneus.db'
 SECRET_KEY = 'dfsg5sdfg545sdfg54sdfg5454fsd'
@@ -40,6 +44,7 @@ def close_db(error):
         g.link_db.close()
 
 dbase = None
+@app.before_request
 def before_request():
     """Установление соединения с БД перед выполнением запроса"""
     global dbase
@@ -64,17 +69,17 @@ def login():
     elif request.method == 'POST' and request.form['username'] == 'Anton' and request.form['psw'] == '123':
         session['userLogged'] = request.form['username']
         return redirect(url_for('profile', username=session['userLogged']))
-    return render_template('login.html', title='Авторизация')
+    return render_template('login.html', menu=dbase.getMenu(), title='Авторизация')
 
 @app.route("/index")
 @app.route("/")
 def index():
     db = get_db()
-    return render_template('index.html', posts=dbase.getPostsAnonce(), title='Главная')
+    return render_template('index.html', menu=dbase.getMenu(),  posts=dbase.getPostsAnonce(), title='Главная')
 
 @app.route('/single')
 def single():
-    return render_template('single.html', title='О нас')
+    return render_template('single.html',menu=dbase.getMenu(),  title='О нас')
 
 @app.route('/contact', methods=['POST', 'GET'])
 def contact():
@@ -85,7 +90,7 @@ def contact():
         else:
             flash('Ошибка')
 
-    return render_template('contact.html', title='Контакты')
+    return render_template('contact.html', menu=dbase.getMenu(), title='Контакты')
 
 
 @app.route("/post/<alias>")
@@ -94,11 +99,11 @@ def showPost(alias):
     if not title:
         abort(404)
 
-    return render_template('post.html', title=title, post=post)
+    return render_template('post.html',  menu=dbase.getMenu(), title=title, post=post)
 
 @app.route('/archive')
 def archive():
-    return render_template('archive.html', title='Блог')
+    return render_template('archive.html',  menu=dbase.getMenu(),  title='Блог')
 
 @app.route('/vologda')
 def vologda():
@@ -135,7 +140,7 @@ def addPost():
         else:
             flash('Ошибка добавления статьи', category='error')
 
-    return render_template('add_post.html', title="Добавление статьи")
+    return render_template('add_post.html',  menu=dbase.getMenu(), title="Добавление статьи")
 
 @app.route('/logout')
 def logout():

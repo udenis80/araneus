@@ -25,18 +25,19 @@
         </div>
         <div class="t-center">
             <a class="site-branding" href="#">
-                <img src="static/images/logo.png" width="300px"/>
+                <img src="static/images/logo.png" width="600px"/>
             </a><!-- .site-branding -->
 
             <!-- Menu-main -->
-            <div id='cssmenu' class="align-center">
-                <ul>
-                    <li class="active"><a href='index'><span>главная</span></a></li>
-                    <li><a href="single"><span>О нас</span></a></li>
-                    <li><a href='archive'><span>Блог</span></a></li>
-                    <li class='last'><a href='contact'><span>Контакты</span></a></li>
-                </ul>
-            </div>
+            {%- block mainmenu -%}
+                <div id='cssmenu' class="align-center">
+                    <ul>
+                        {% for p in menu %}
+                            <li class="list"><a href={{ p.url }}><span>{{ p.title }}</span></a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endblock mainmenu %}
         </div>
     </div>
 </header>
