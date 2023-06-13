@@ -5,11 +5,15 @@
 {% for msg in get_flashed_messages() %}
 <div class="flash">{{msg}}</div>
 {% endfor %}
-<form action="{{url_for('addPost')}}" method="post" class="form-contact">
-<p><label>Название статьи: </label> <input type="text" name="name" value="" required />
-<p><label>URL статьи: </label> <input type="text" name="url" value="" required />
-<p><label>Текст статьи:</label>
-<p><textarea name="post" rows=7 cols=40></textarea>
-<p><input type="submit" value="Добавить" />
-</form>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="image">
+        <input type="submit" value="Загрузить">
+    </form>
+    <form action="{{ url_for('addPost') }}" method="post" class="form-contact">
+        <p><label>Название статьи: </label> <input type="text" name="name" value="" required/>
+        <p><label>URL статьи: </label> <input type="text" name="url" value="" required/>
+        <p><label>Текст статьи:</label>
+        <p><textarea name="post" rows=7 cols=40></textarea>
+        <p><input type="submit" value="Добавить"/>
+    </form>
 {% endblock %}

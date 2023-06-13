@@ -67,7 +67,7 @@ def login():
 @app.route("/index")
 @app.route("/")
 def index():
-    db = get_db()
+    # db = get_db()
     return render_template('index.html', menu=dbase.getMenu(),  posts=dbase.getPostsAnonce(), title='Главная')
 
 @app.route('/about')
@@ -116,8 +116,8 @@ def yola():
 
 @app.route("/add_post", methods=["POST", "GET"])
 def addPost():
-    db = get_db()
-    dbase = FDataBase(db)
+    # db = get_db()
+    # dbase = FDataBase(db)
 
     if request.method == "POST":
         if len(request.form['name']) > 4 and len(request.form['post']) > 10:
