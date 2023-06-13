@@ -9,6 +9,11 @@
         <input type="file" name="image">
         <input type="submit" value="Загрузить">
     </form>
+    <select name="image_id">
+        {% for image in images %}
+            <option value="{{ image.id }}">{{ image.name }}</option>
+        {% endfor %}
+    </select>
     <form action="{{ url_for('addPost') }}" method="post" class="form-contact">
         <p><label>Название статьи: </label> <input type="text" name="name" value="" required/>
         <p><label>URL статьи: </label> <input type="text" name="url" value="" required/>

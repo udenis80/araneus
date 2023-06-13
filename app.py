@@ -5,8 +5,8 @@ from FDataBase import FDataBase
 from flask import Flask, render_template, url_for, request, flash, session, redirect, abort, g
 
 """миграции в консоли"""
-"""from app import create_db()"""
-"""create_db"""
+"""from app import create_db"""
+"""create_db()"""
 
 #Конфигурация
 DATABASE = '/tmp/araneus.db'
@@ -114,14 +114,44 @@ def razan():
 def yola():
     return render_template('yola.html')
 
+# @app.route('/add_post', methods=['GET', 'POST'])
+# def add_post():
+#     if request.method == 'POST':
+#         title = request.form['title']
+#         post = request.form['post']
+#         url = request.form['url']
+#         image_id = request.form['image_id']
+#         conn = sqlite3.connect('araneus.db')
+#         cursor = conn.cursor()
+#         cursor.execute('INSERT INTO posts (title, post, url, image_id) VALUES (?, ?, ?, ?)',
+#                        (title, post, url, image_id))
+#         conn.commit()
+#         conn.close()
+#         return redirect(url_for('add_post'))
+#     else:
+#         conn = sqlite3.connect('araneus.db')
+#         cursor = conn.cursor()
+#         cursor.execute('SELECT * FROM images')
+#         images = cursor.fetchall()
+#         conn.close()
+#         return render_template('add_post.html', images=images)
+
+# @app.route('/post/<int:id>')
+# def post(id):
+#     conn = sqlite3.connect('araneus.db')
+#     cursor = conn.cursor()
+#     cursor.execute('SELECT posts.*, images.name, images.data FROM posts LEFT JOIN images ON posts.image_id=images.id WHERE posts.id=?', (id,))
+#     post = cursor.fetchone()
+#     conn.close()
+#     return render_template('post.html', post=post)
+
+
 @app.route("/add_post", methods=["POST", "GET"])
 def addPost():
-    # db = get_db()
-    # dbase = FDataBase(db)
 
     if request.method == "POST":
         if len(request.form['name']) > 4 and len(request.form['post']) > 10:
-            res = dbase.addPost(request.form['name'], request.form['post'], request.form['url'])
+            res = dbase.addPost(request.form['name'], request.form['post'], request.form['url'], request.form['image_id'])
             if not res:
                 flash('Ошибка добавления статьи', category = 'error')
             else:
@@ -137,6 +167,20 @@ def logout():
     flash("Вы вышли из аккаунта", "success")
     return redirect(url_for('login'))
 
+@app.route('/add_image', methods=['GET', 'POST'])
+def add_image():
+    if request.method == 'POST':
+        image = request.files['image']
+        name = image.filename
+        data = image.read()
+        conn = sqlite3.connect('araneus.db')
+        cursor = conn.cursor()
+        cursor.execute('INSERT INTO images (name, data) VALUES (?, ?)', (name, data))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('add_image'))
+    else:
+        return render_template('add_image.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

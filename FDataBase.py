@@ -19,32 +19,34 @@ class FDataBase:
             print("Ошибка чтения из БД")
         return []
 
-    def addPost(self, title, img, text, url):
-        try:
-            self.__cur.execute(f"SELECT COUNT() as `count` FROM posts WHERE url LIKE '{url}'")
-            res = self.__cur.fetchone()
-            if res['count'] > 0:
-                print("Статья с таким url уже существует")
-                return False
 
-            base = url_for('static', filename='images_html')
 
-            text = re.sub(r"(?P<tag><img\s+[^>]*src=)(?P<quote>[\"'])(?P<url>.+?)(?P=quote)>",
-                          "\\g<tag>" + base + "/\\g<url>>",
-                          text)
-
-            tm = math.floor(time.time())
-            self.__cur.execute("INSERT INTO posts VALUES(NULL, ?, ?, ?, ?, ?)", (title, img, text, url, tm))
-            self.__db.commit()
-        except sqlite3.Error as e:
-            print("Ошибка добавления статьи в БД " + str(e))
-            return False
-
-        return True
+    # def addPost(self, title, text, image_id, url):
+        # try:
+        #     self.__cur.execute(f"SELECT COUNT() as `count` FROM posts WHERE url LIKE '{url}'")
+        #     res = self.__cur.fetchone()
+        #     if res['count'] > 0:
+        #         print("Статья с таким url уже существует")
+        #         return False
+        #
+        #     base = url_for('static', filename='images_html')
+        #
+        #     text = re.sub(r"(?P<tag><img\s+[^>]*src=)(?P<quote>[\"'])(?P<url>.+?)(?P=quote)>",
+        #                   "\\g<tag>" + base + "/\\g<url>>",
+        #                   text)
+        #
+        #     tm = math.floor(time.time())
+        #     self.__cur.execute("INSERT INTO posts VALUES(NULL, ?, ?, ?, ?, ?)", (title, text, url, image_id, tm))
+        #     self.__db.commit()
+        # except sqlite3.Error as e:
+        #     print("Ошибка добавления статьи в БД " + str(e))
+        #     return False
+        #
+        # return True
 
     def getPost(self, alias):
         try:
-            self.__cur.execute(f"SELECT title, text FROM posts WHERE url LIKE '{alias}' LIMIT 1")
+            self.__cur.execute(f"SELECT title, image, text FROM posts WHERE url LIKE '{alias}' LIMIT 1")
             res = self.__cur.fetchone()
             if res:
                 return res
