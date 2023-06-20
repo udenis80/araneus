@@ -5,10 +5,10 @@
 {% for msg in get_flashed_messages() %}
 <div class="flash">{{msg}}</div>
 {% endfor %}
-    <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="image">
-        <input type="submit" value="Загрузить">
-    </form>
+    <form method="POST" action="/add_post" enctype="multipart/form-data">
+    <input type="file" name="photo">
+    <input type="submit" value="Добавить статью">
+</form>
     <select name="image_id">
         {% for image in images %}
             <option value="{{ image.id }}">{{ image.name }}</option>

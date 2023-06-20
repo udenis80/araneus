@@ -16,6 +16,7 @@ DEBUG = True
 app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.update(dict(DATABASE=os.path.join(app.root_path,'araneus.db')))
+app.config['UPLOADED_PHOTOS_DEST'] = os.getcwd() + '/uploads'  # папка для сохранения файлов
 
 def connect_db():
     conn = sqlite3.connect(app.config['DATABASE'])
