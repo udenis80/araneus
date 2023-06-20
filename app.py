@@ -42,21 +42,25 @@ def close_db(error):
     if hasattr(g, 'link_db'):
         g.link_db.close()
 
-dbase = None
-@app.before_request
-def before_request():
-    """Установление соединения с БД перед выполнением запроса"""
-    global dbase
-    db = get_db()
-    dbase = FDataBase(db)
+# dbase = None
+# @app.before_request
+# def before_request():
+#     """Установление соединения с БД перед выполнением запроса"""
+#     global dbase
+#     db = get_db()
+#     dbase = FDataBase(db)
 
 """Обработка ошибки 404"""
 @app.errorhandler(404)
 def pageNotFound(error):
+    db = get_db()
+    dbase = FDataBase(db)
     return render_template('page404.html',  menu=dbase.getMenu(), title='Нет такой страницы')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    db = get_db()
+    dbase = FDataBase(db)
     if 'userLogged' in session:
         return redirect(url_for('addPost', username=session['userLogged']))
     elif request.method == 'POST' and request.form['username'] == 'Anton' and request.form['psw'] == '123':
@@ -67,16 +71,20 @@ def login():
 @app.route("/index")
 @app.route("/")
 def index():
-    # db = get_db()
+    db = get_db()
+    dbase = FDataBase(db)
     return render_template('index.html', menu=dbase.getMenu(),  posts=dbase.getPostsAnonce(), title='Главная')
 
 @app.route('/about')
 def about():
+    db = get_db()
+    dbase = FDataBase(db)
     return render_template('about.html',menu=dbase.getMenu(),  title='О нас')
 
 @app.route('/contact', methods=['POST', 'GET'])
 def contact():
-
+    db = get_db()
+    dbase = FDataBase(db)
     if request.method == 'POST':
         if len(request.form['name']) > 2:
             flash('Сообщение отправлено')
@@ -88,31 +96,14 @@ def contact():
 
 @app.route("/post/<alias>")
 def showPost(alias):
+    db = get_db()
+    dbase = FDataBase(db)
     title, post = dbase.getPost(alias)
     if not title:
         abort(404)
 
     return render_template('post.html',  menu=dbase.getMenu(), title=title, post=post)
 
-# @app.route('/vologda')
-# def vologda():
-#     return render_template('vologda.html', title='Проект в Вологде')
-#
-# @app.route('/kazan')
-# def kazan():
-#     return render_template('kazan.html')
-#
-# @app.route('/ufa')
-# def ufa():
-#     return render_template('ufa.html')
-#
-# @app.route('/razan')
-# def razan():
-#     return render_template('razan.html')
-#
-# @app.route('/yola')
-# def yola():
-#     return render_template('yola.html')
 
 # @app.route('/add_post', methods=['GET', 'POST'])
 # def add_post():
@@ -148,6 +139,8 @@ def showPost(alias):
 
 @app.route("/add_post", methods=["POST", "GET"])
 def addPost():
+    db = get_db()
+    dbase = FDataBase(db)
 
     if request.method == "POST":
         if len(request.form['name']) > 4 and len(request.form['post']) > 10:
@@ -161,14 +154,10 @@ def addPost():
 
     return render_template('add_post.html',  menu=dbase.getMenu(), title="Добавление статьи")
 
-@app.route('/logout')
-def logout():
-    logout_user()
-    flash("Вы вышли из аккаунта", "success")
-    return redirect(url_for('login'))
-
 @app.route('/add_image', methods=['GET', 'POST'])
 def add_image():
+    db = get_db()
+    dbase = FDataBase(db)
     if request.method == 'POST':
         image = request.files['image']
         name = image.filename

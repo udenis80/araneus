@@ -22,8 +22,8 @@
                         <div class="entry-title">{{ title }}
                         </div>
                     </div>
-                    {% if article[3] %}
-                        <img src="data:image/jpeg;base64,{{ article[4]|b64encode }}" alt="{{ article[3] }}">
+                    {% if post[1] %}
+                        <img src="data:image/jpeg;base64,{{ post[5]|b64encode }}" alt="{{ images[2] }}">
                     {% endif %}
                 </div>
                 <div class="entry-content">
