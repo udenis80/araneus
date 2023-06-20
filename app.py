@@ -103,39 +103,6 @@ def showPost(alias):
 
     return render_template('post.html',  menu=dbase.getMenu(), title=title, post=post)
 
-
-# @app.route('/add_post', methods=['GET', 'POST'])
-# def add_post():
-#     if request.method == 'POST':
-#         title = request.form['title']
-#         post = request.form['post']
-#         url = request.form['url']
-#         image_id = request.form['image_id']
-#         conn = sqlite3.connect('araneus.db')
-#         cursor = conn.cursor()
-#         cursor.execute('INSERT INTO posts (title, post, url, image_id) VALUES (?, ?, ?, ?)',
-#                        (title, post, url, image_id))
-#         conn.commit()
-#         conn.close()
-#         return redirect(url_for('add_post'))
-#     else:
-#         conn = sqlite3.connect('araneus.db')
-#         cursor = conn.cursor()
-#         cursor.execute('SELECT * FROM images')
-#         images = cursor.fetchall()
-#         conn.close()
-#         return render_template('add_post.html', images=images)
-
-# @app.route('/post/<int:id>')
-# def post(id):
-#     conn = sqlite3.connect('araneus.db')
-#     cursor = conn.cursor()
-#     cursor.execute('SELECT posts.*, images.name, images.data FROM posts LEFT JOIN images ON posts.image_id=images.id WHERE posts.id=?', (id,))
-#     post = cursor.fetchone()
-#     conn.close()
-#     return render_template('post.html', post=post)
-
-
 @app.route("/add_post", methods=["POST", "GET"])
 def addPost():
     db = get_db()
