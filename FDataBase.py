@@ -27,7 +27,7 @@ class FDataBase:
                 print("Статья с таким url уже существует")
                 return False
 
-            base = url_for('static', filename='images_html')
+            base = url_for('static', filename='images')
 
             text = re.sub(r"(?P<tag><img\s+[^>]*src=)(?P<quote>[\"'])(?P<url>.+?)(?P=quote)>",
                           "\\g<tag>" + base + "/\\g<url>>",

@@ -2,13 +2,14 @@
 {% block content %}
     {{ super() }}
     <hr>
-    <h2>Список статей</h2>
+    <h3>Список статей</h3>
     <ul>
         {% for p in posts %}
             <li>
-                <a class="portfolio-box zoom-effect" href="{{ url_for('showPost', alias=p.url) }}">{{ p.title }}</a>
-                <span>{{ p.text[:50] | striptags }}</span>
+                <p><a class="portfolio-box zoom-effect" href="{{ url_for('showPost', alias=p.url) }}">{{ p.title }}</a></p>
+                <p><span>{{ p.text[:50] | striptags }}</span></p>
             </li>
         {% endfor %}
     </ul>
+    <p><a href="add_post">Добавить статью</a> </p>
 {% endblock %}
