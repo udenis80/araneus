@@ -1,32 +1,43 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{{ super() }}
-{#    <style>#}
-{#        h1 {text-align: center;}#}
-{#        p.date {text-align: right;}#}
-{#        p.main {text-align: justify;}#}
-{#        /*значение justify растягивание текста по ширине*/#}
-{#        p {text-indent: 30px;}#}
-{##}
-{#        /*задаем размер отступа для первой строки абзаца*/#}
-{#    </style>#}
+    {{ super() }}
+    <style>
+        h1 {
+            text-align: center;
+        }
 
-{#    <section id="container">#}
-{#        <div class="wrap-container">#}
-{#            <!-----------------Content-Box-------------------->#}
-{#            <article class="single-post zerogrid">#}
-{#                <div class="row wrap-post"><!--Start Box-->#}
-{#                    <div class="entry-header">#}
-{#                        <span class="time">June 8, 2016</span>#}
-{#                        <div class="entry-title">{{ title }}#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div class="entry-content">#}
+        p.date {
+            text-align: right;
+        }
+
+        p.main {
+            text-align: justify;
+        }
+
+        /*значение justify растягивание текста по ширине*/
+        p {
+            text-indent: 30px;
+        }
+
+        /*задаем размер отступа для первой строки абзаца*/
+    </style>
+
+    <section id="container">
+        <div class="wrap-container">
+            <!-----------------Content-Box-------------------->
+            <article class="single-post zerogrid">
+                <div class="row wrap-post"><!--Start Box-->
+                    <div class="entry-header">
+                        <span class="time">June 8, 2016</span>
+                        <div class="entry-title">{{ title }}
+                        </div>
+                    </div>
+                </div>
+                <div class="entry-content">
                     {{ post | safe }}
-{#                </div>#}
-{#            </article>#}
-{#        </div>#}
-{#    </section>#}
+                </div>
+            </article>
+        </div>
+    </section>
 {% endblock %}

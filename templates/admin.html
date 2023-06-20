@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    {{ super() }}
+    <hr>
+    <h2>Список статей</h2>
+    <ul>
+        {% for p in posts %}
+            <li>
+                <a class="portfolio-box zoom-effect" href="{{ url_for('showPost', alias=p.url) }}">{{ p.title }}</a>
+                <span>{{ p.text[:50] | striptags }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

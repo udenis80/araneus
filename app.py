@@ -61,10 +61,10 @@ def login():
     db = get_db()
     dbase = FDataBase(db)
     if 'userLogged' in session:
-        return redirect(url_for('addPost', username=session['userLogged']))
+        return redirect(url_for('admin', username=session['userLogged']))
     elif request.method == 'POST' and request.form['username'] == 'Anton' and request.form['psw'] == '123':
         session['userLogged'] = request.form['username']
-        return redirect(url_for('addPost', username=session['userLogged']))
+        return redirect(url_for('login', username=session['userLogged']))
     return render_template('login.html', menu=dbase.getMenu(), title='Авторизация')
 
 @app.route("/index")
@@ -79,6 +79,13 @@ def about():
     db = get_db()
     dbase = FDataBase(db)
     return render_template('about.html',menu=dbase.getMenu(),  title='О нас')
+
+
+@app.route('/admin')
+def admin():
+    db = get_db()
+    dbase = FDataBase(db)
+    return render_template('admin.html',menu=dbase.getMenu(),  title='панель администратора')
 
 @app.route('/contact', methods=['POST', 'GET'])
 def contact():
@@ -119,23 +126,6 @@ def addPost():
             flash('Ошибка добавления статьи', category='error')
 
     return render_template('add_post.html',  menu=dbase.getMenu(), title="Добавление статьи")
-
-@app.route('/add_image', methods=['GET', 'POST'])
-def add_image():
-    db = get_db()
-    dbase = FDataBase(db)
-    if request.method == 'POST':
-        image = request.files['image']
-        name = image.filename
-        data = image.read()
-        conn = sqlite3.connect('araneus.db')
-        cursor = conn.cursor()
-        cursor.execute('INSERT INTO images (name, data) VALUES (?, ?)', (name, data))
-        conn.commit()
-        conn.close()
-        return redirect(url_for('add_image'))
-    else:
-        return render_template('add_image.html')
 
 @app.teardown_appcontext
 def close_db(error):
