@@ -94,25 +94,25 @@ def showPost(alias):
 
     return render_template('post.html',  menu=dbase.getMenu(), title=title, post=post)
 
-@app.route('/vologda')
-def vologda():
-    return render_template('vologda.html', title='Проект в Вологде')
-
-@app.route('/kazan')
-def kazan():
-    return render_template('kazan.html')
-
-@app.route('/ufa')
-def ufa():
-    return render_template('ufa.html')
-
-@app.route('/razan')
-def razan():
-    return render_template('razan.html')
-
-@app.route('/yola')
-def yola():
-    return render_template('yola.html')
+# @app.route('/vologda')
+# def vologda():
+#     return render_template('vologda.html', title='Проект в Вологде')
+#
+# @app.route('/kazan')
+# def kazan():
+#     return render_template('kazan.html')
+#
+# @app.route('/ufa')
+# def ufa():
+#     return render_template('ufa.html')
+#
+# @app.route('/razan')
+# def razan():
+#     return render_template('razan.html')
+#
+# @app.route('/yola')
+# def yola():
+#     return render_template('yola.html')
 
 # @app.route('/add_post', methods=['GET', 'POST'])
 # def add_post():
