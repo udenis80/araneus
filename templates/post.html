@@ -22,9 +22,6 @@
                         <div class="entry-title">{{ title }}
                         </div>
                     </div>
-                    {% if post[1] %}
-                        <img src="data:image/jpeg;base64,{{ post[5]|b64encode }}" alt="{{ images[2] }}">
-                    {% endif %}
                 </div>
                 <div class="entry-content">
                     {{ post | safe }}

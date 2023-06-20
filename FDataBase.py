@@ -19,9 +19,7 @@ class FDataBase:
             print("Ошибка чтения из БД")
         return []
 
-
-
-    def addPost(self, title, text, image_id, url):
+    def addPost(self, title, text, url):
         try:
             self.__cur.execute(f"SELECT COUNT() as `count` FROM posts WHERE url LIKE '{url}'")
             res = self.__cur.fetchone()
@@ -36,7 +34,7 @@ class FDataBase:
                           text)
 
             tm = math.floor(time.time())
-            self.__cur.execute("INSERT INTO posts VALUES(NULL, ?, ?, ?, ?, ?)", (title, text, url, image_id, tm))
+            self.__cur.execute("INSERT INTO posts VALUES(NULL, ?, ?, ?, ?)", (title, text, url, tm))
             self.__db.commit()
         except sqlite3.Error as e:
             print("Ошибка добавления статьи в БД " + str(e))

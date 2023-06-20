@@ -8,6 +8,8 @@ from flask import Flask, render_template, url_for, request, flash, session, redi
 """from app import create_db"""
 """create_db()"""
 
+
+
 #Конфигурация
 DATABASE = '/tmp/araneus.db'
 SECRET_KEY = 'dfsg5sdfg545sdfg54sdfg5454fsd'
@@ -16,14 +18,14 @@ DEBUG = True
 app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.update(dict(DATABASE=os.path.join(app.root_path,'araneus.db')))
-app.config['UPLOADED_PHOTOS_DEST'] = os.getcwd() + '/uploads'  # папка для сохранения файлов
 
 def connect_db():
+#Общая функция для соединения с БД
     conn = sqlite3.connect(app.config['DATABASE'])
     conn.row_factory = sqlite3.Row
     return conn
 
-    #Вспомогательная функция для создания таблиц БД
+  #Вспомогательная функция для создания таблиц БД
 def create_db():
     db = connect_db()
     with app.open_resource('sq_db.sql', mode='r') as f:
@@ -37,11 +39,7 @@ def get_db():
        g.link_db = connect_db()
     return g.link_db
 
-@app.teardown_appcontext
-def close_db(error):
-    """Закрываем соединение с БД, если оно было установлено"""
-    if hasattr(g, 'link_db'):
-        g.link_db.close()
+
 
 # dbase = None
 # @app.before_request
@@ -145,7 +143,7 @@ def addPost():
 
     if request.method == "POST":
         if len(request.form['name']) > 4 and len(request.form['post']) > 10:
-            res = dbase.addPost(request.form['name'], request.form['post'], request.form['url'], request.form['image_id'])
+            res = dbase.addPost(request.form['name'], request.form['post'], request.form['url'])
             if not res:
                 flash('Ошибка добавления статьи', category = 'error')
             else:
@@ -171,6 +169,12 @@ def add_image():
         return redirect(url_for('add_image'))
     else:
         return render_template('add_image.html')
+
+@app.teardown_appcontext
+def close_db(error):
+    """Закрываем соединение с БД, если оно было установлено"""
+    if hasattr(g, 'link_db'):
+        g.link_db.close()
 
 if __name__ == '__main__':
     app.run(debug=True)
