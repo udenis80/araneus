@@ -44,7 +44,7 @@ class FDataBase:
 
     def getPost(self, alias):
         try:
-            self.__cur.execute(f"SELECT title, image_id, text FROM posts WHERE url LIKE '{alias}' LIMIT 1")
+            self.__cur.execute(f"SELECT title, text FROM posts WHERE url LIKE '{alias}' LIMIT 1")
             res = self.__cur.fetchone()
             if res:
                 return res

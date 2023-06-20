@@ -8,120 +8,24 @@
                         <div class="row">
                             <div class="col-1-3">
                                 <div class="wrap-col">
+                                    <ul>
                                         {% for p in posts %}
                                             <li>
-                                            <a class="portfolio-box zoom-effect"
-                                               href="{{ url_for('showPost', alias=p.url) }}">
-                                                <img src="{{ url_for('static', filename='images/ufa.jpg') }}" class="img-responsive" alt="">
-                                                <div class="portfolio-box-caption">
-                                                    <div class="portfolio-box-caption-content">
-                                                        <div class="project-name">
-                                                            <span>{{ p.title|truncate(30, True) }}</span>
+                                                <a class="portfolio-box zoom-effect"
+                                                   href="{{ url_for('showPost', alias=p.url) }}">
+                                                    <img src="{{ url_for('static', filename='images/ufa.jpg') }}"
+                                                         class="img-responsive" alt="">
+                                                    <div class="portfolio-box-caption">
+                                                        <div class="portfolio-box-caption-content">
+                                                            <div class="project-name">
+                                                                <span>{{ p.title|truncate(30, True) }}</span>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </a>
+                                                </a>
+                                            </li>
                                         {% endfor %}
-                                    </li>
-
-{#                                    <a class="portfolio-box zoom-effect" href="kazan">#}
-{#                                        <img src="static/images/kazancube.jpg" class="img-responsive" alt="">#}
-{#                                        <div class="portfolio-box-caption">#}
-{#                                            <div class="portfolio-box-caption-content">#}
-{#                                                <div class="project-name">#}
-{#                                                    <span>Видеокуб в Казани</span>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </a>#}
-{#                                    <a class="portfolio-box zoom-effect" href="ufa">#}
-{#                                        <img src="static/images/ufa.jpg" class="img-responsive" alt="">#}
-{#                                        <div class="portfolio-box-caption">#}
-{#                                            <div class="portfolio-box-caption-content">#}
-{#                                                <div class="project-name">#}
-{#                                                    <span>видеостойки в Уфе</span>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </a>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="col-1-3">#}
-{#                                <div class="wrap-col">#}
-{#                                    <a class="portfolio-box zoom-effect" href="razan">#}
-{#                                        <img src="static/images/razan.jpg" class="img-responsive" alt="">#}
-{#                                        <div class="portfolio-box-caption">#}
-{#                                            <div class="portfolio-box-caption-content">#}
-{#                                                <div class="project-name">#}
-{#                                                    <span>Проект в Рязани</span>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </a>#}
-{#                                    <a class="portfolio-box zoom-effect" href="yola">#}
-{#                                        <img src="static/images/yola.jpg" class="img-responsive" alt="">#}
-{#                                        <div class="portfolio-box-caption">#}
-{#                                            <div class="portfolio-box-caption-content">#}
-{#                                                <div class="project-name">#}
-{#                                                    <span>Видеоэкран в Йошкар-Оле</span>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </a>#}
-{#                                    <a class="portfolio-box zoom-effect" href="vologda">#}
-{#                                        <img src="static/images/vologda.jpg" class="img-responsive" alt="">#}
-{#                                        <div class="portfolio-box-caption">#}
-{#                                            <div class="portfolio-box-caption-content">#}
-{#                                                <div class="project-name">#}
-{#                                                    <span>#ANIMAL</span>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </a>#}
-{#                                    <a class="portfolio-box zoom-effect" href="vologda">#}
-{#                                        <img src="static/images/vologda.jpg" class="img-responsive" alt="">#}
-{#                                        <div class="portfolio-box-caption">#}
-{#                                            <div class="portfolio-box-caption-content">#}
-{#                                                <div class="project-name">#}
-{#                                                    <span>#ANIMAL</span>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </a>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                            <div class="col-1-3">#}
-{#                                <div class="wrap-col">#}
-{#                                    <a class="portfolio-box zoom-effect" href="razan">#}
-{#                                        <img src="static/images/razan.jpg" class="img-responsive" alt="">#}
-{#                                        <div class="portfolio-box-caption">#}
-{#                                            <div class="portfolio-box-caption-content">#}
-{#                                                <div class="project-name">#}
-{#                                                    <span>#ANIMAL</span>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </a>#}
-{#                                    <a class="portfolio-box zoom-effect" href="kazan">#}
-{#                                        <img src="static/images/kazan.jpg" class="img-responsive" alt="">#}
-{#                                        <div class="portfolio-box-caption">#}
-{#                                            <div class="portfolio-box-caption-content">#}
-{#                                                <div class="project-name">#}
-{#                                                    <span>#ANIMAL</span>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </a>#}
-{#                                    <a class="portfolio-box zoom-effect" href="yola">#}
-{#                                        <img src="static/images/yola.jpg" class="img-responsive" alt="">#}
-{#                                        <div class="portfolio-box-caption">#}
-{#                                            <div class="portfolio-box-caption-content">#}
-{#                                                <div class="project-name">#}
-{#                                                    <span>#ANIMAL</span>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </a>#}
+                                    </ul>
                                 </div>
                             </div>
                         </div>
