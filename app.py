@@ -100,11 +100,11 @@ def contact():
     return render_template('contact.html', menu=dbase.getMenu(), title='Контакты')
 
 
-@app.route("/post/<alias>")
-def showPost(alias):
+@app.route("/post/<int:id_post>")
+def showPost(id_post):
     db = get_db()
     dbase = FDataBase(db)
-    title, post = dbase.getPost(alias)
+    title, post = dbase.getPost(id_post)
     if not title:
         abort(404)
 

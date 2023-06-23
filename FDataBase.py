@@ -21,7 +21,7 @@ class FDataBase:
 
     def addPost(self, title, text, url):
         try:
-            self.__cur.execute(f"SELECT COUNT() as `count` FROM posts WHERE url LIKE '{url}'")
+            self.__cur.execute(f"SELECT COUNT() as `count` FROM posts WHERE url LIKE '{id}'")
             res = self.__cur.fetchone()
             if res['count'] > 0:
                 print("Статья с таким url уже существует")
@@ -42,9 +42,9 @@ class FDataBase:
 
         return True
 
-    def getPost(self, alias):
+    def getPost(self, post_id):
         try:
-            self.__cur.execute(f"SELECT title , text FROM posts WHERE url LIKE '{alias}' LIMIT 1")
+            self.__cur.execute(f"SELECT title , text FROM posts WHERE id= {post_id} LIMIT 1")
             res = self.__cur.fetchone()
             if res:
                 return res
