@@ -2,8 +2,8 @@
 
 {% block content %}
     {{ super() }}
-    {% for msg in get_flashed_messages() %}
-        <div class="flash">{{ msg }}</div>
+    {% for cat, msg in get_flashed_messages(True) %}
+        <div class="flash {{ cat }}">{{ msg }}</div>
     {% endfor %}
     <form action="{{ url_for('addPost') }}" method="post" class="form-contact">
         <p><label>Название статьи: </label> <input type="text" name="name" value="" required/>

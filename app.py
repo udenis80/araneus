@@ -85,7 +85,7 @@ def about():
 def admin():
     db = get_db()
     dbase = FDataBase(db)
-    return render_template('admin.html',menu=dbase.getMenu(),  title='панель администратора')
+    return render_template('admin.html',menu=dbase.getMenu(),  title='панель администратора', posts=dbase.getPostsAnonce())
 
 @app.route('/contact', methods=['POST', 'GET'])
 def contact():

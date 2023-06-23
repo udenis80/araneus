@@ -2,14 +2,16 @@
 {% block content %}
     {{ super() }}
     <hr>
+    <p align="center" ><a href="add_post">Добавить статью</a></p>
+
     <h3>Список статей</h3>
-    <ul>
+     <ul class="list-posts">
         {% for p in posts %}
             <li>
-                <p><a class="portfolio-box zoom-effect" href="{{ url_for('showPost', alias=p.url) }}">{{ p.title }}</a></p>
-                <p><span>{{ p.text[:50] | striptags }}</span></p>
+                <p class="title"><a  href="{{ url_for('showPost', id_post=p.id) }}">{{ p.title }}</a></p>
+
+                <p class="annonce"><span>{{ p.text[:50] | striptags }}</span></p>
             </li>
         {% endfor %}
     </ul>
-    <p><a href="add_post">Добавить статью</a> </p>
 {% endblock %}
