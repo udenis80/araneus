@@ -10,6 +10,7 @@
                 <p class="title"><a  href="{{ url_for('showPost', id_post=p.id) }}">{{ p.title }}</a></p>
 
                 <p class="annonce"><span>{{ p.text[:50] | striptags }}</span></p>
+
             </li>
         {% endfor %}
     </ul>

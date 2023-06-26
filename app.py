@@ -127,6 +127,25 @@ def addPost():
 
     return render_template('add_post.html',  menu=dbase.getMenu(), title="Добавление статьи")
 
+@app.route('/edit/<int:id_post>', methods=['GET', 'POST'])
+def edit_post(id_post):
+    db = get_db()
+    dbase = FDataBase(db)
+    title, post = dbase.getPost(id_post)
+    if request.method == 'POST':
+        post.title = request.form['title']
+        post.content = request.form['content']
+        db.session.commit()
+        return redirect(url_for('index'))
+    return render_template('edit.html', post=post)
+
+@app.route('/delete/<int:id_post>')
+def delete_article(id):
+    article = Article.query.get(id)
+    db.session.delete(article)
+    db.session.commit()
+    return redirect(url_for('index'))
+
 @app.teardown_appcontext
 def close_db(error):
     """Закрываем соединение с БД, если оно было установлено"""
