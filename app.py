@@ -122,32 +122,47 @@ def addPost():
                 flash('Ошибка добавления статьи', category = 'error')
             else:
                 flash('Статья добавлена успешно', category='success')
+                return redirect(url_for('admin'))
         else:
             flash('Ошибка добавления статьи', category='error')
 
     return render_template('add_post.html',  menu=dbase.getMenu(), title="Добавление статьи")
 
-
-@app.route('/<int:id_post>/edit', methods=('GET', 'POST'))
+@app.route('/post/<int:id_post>/edit', methods=('GET', 'POST'))
 def edit(id_post):
     db = get_db()
     dbase = FDataBase(db)
-    post = dbase.getPost(id_post)
-
+    title, post = dbase.getPost(id_post)
     if request.method == 'POST':
-        title = request.form['title']
-        text = request.form['text']
-
-        if not title:
-            flash('Title is required!')
+        res = dbase.edit_Post(request.form['name'], request.form['post'], request.form['url'])
+        if not res:
+            flash('Ошибка редактирования статьи', category='error')
         else:
-            db = get_db()
-            db.execute('UPDATE posts SET title = ?, text = ?'
-                         ' WHERE id = ?',
-                         (title, text, id))
-            db.commit()
-            db.close()
-            return redirect(url_for('index'))
+            flash('Статья отредактирована', category='success')
+    else:
+        flash('Ошибка редатирования', category='error')
+    return render_template('edit.html', menu=dbase.getMenu(), title="Редактирование статьи")
+
+    # @app.route('/<int:id_post>/edit', methods=('GET', 'POST'))
+# def edit(id_post):
+#     db = get_db()
+#     dbase = FDataBase(db)
+#     post = dbase.getPost(id_post)
+#
+#     if request.method == 'POST':
+#         title = request.form['title']
+#         text = request.form['text']
+#
+#         if not title:
+#             flash('Title is required!')
+#         else:
+#             db = get_db()
+#             db.execute('UPDATE posts SET title = ?, text = ?'
+#                          ' WHERE id = ?',
+#                          (title, text, id))
+#             db.commit()
+#             db.close()
+#             return redirect(url_for('index'))
 
     return render_template('edit.html', post=post)
 
