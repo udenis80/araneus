@@ -128,7 +128,7 @@ def addPost():
 
     return render_template('add_post.html',  menu=dbase.getMenu(), title="Добавление статьи")
 
-@app.route('/post/<int:id_post>/edit', methods=('GET', 'POST'))
+@app.route('/post/<int:id_post>/edit/', methods=('GET', 'POST'))
 def edit(id_post):
     db = get_db()
     dbase = FDataBase(db)
