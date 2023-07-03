@@ -124,7 +124,7 @@ def addPost():
     dbase = FDataBase(db)
 
     if request.method == "POST":
-        filename = photos.save(request.files['photo'])  # Сохраняем загруженное изображение
+        # filename = photos.save(request.files['photo'])  # Сохраняем загруженное изображение
         if len(request.form['name']) > 4 and len(request.form['post']) > 10:
             res = dbase.addPost(request.form['name'], request.form['post'], request.form['url'])
             if not res:
@@ -135,13 +135,14 @@ def addPost():
         else:
             flash('Ошибка добавления статьи', category='error')
 
-    return render_template('add_post.html',  menu=dbase.getMenu(), image=filename,  title="Добавление статьи")
+    return render_template('add_post.html',  menu=dbase.getMenu(),  title="Добавление статьи")
 
 @app.route('/post/<int:id_post>/edit', methods=('GET', 'POST'))
 def edit(id_post):
     db = get_db()
     dbase = FDataBase(db)
-    title, post = dbase.getPost(id_post)
+    # post = dbase.getPost(id_post)
+
     if request.method == 'POST':
         res = dbase.edit_Post(request.form['name'], request.form['post'], request.form['url'])
         if not res:
