@@ -6,28 +6,28 @@
                 <div class="wrap-content">
                     <div class="zerogrid">
                         <div class="row">
-                            <div class="col-1-3">
-                                <div class="wrap-col">
-                                    <ul>
-                                        {% for p in posts %}
-                                            <li>
-                                                <a class="portfolio-box zoom-effect"
-                                                   href="{{ url_for('showPost', id_post=p.id) }}">
-                                                    <img src="{{ url_for('static', filename='images/ufa.jpg') }}"
-                                                         class="img-responsive" alt="">
-                                                    <div class="portfolio-box-caption">
-                                                        <div class="portfolio-box-caption-content">
-                                                            <div class="project-name">
-                                                                <span>{{ p.title|truncate(30, True) }}</span>
-                                                            </div>
+
+                            {% for p in posts %}
+                                {% if p.id%3 != 0 %}
+                                    <div class="col-1-3">
+                                        <div class="wrap-col">
+                                            <a class="portfolio-box zoom-effect"
+                                               href="{{ url_for('showPost', id_post=p.id) }}">
+                                                <img src="{{ url_for('static', filename='images/ufa.jpg') }}"
+                                                     class="img-responsive" alt="">
+                                                <div class="portfolio-box-caption">
+                                                    <div class="portfolio-box-caption-content">
+                                                        <div class="project-name">
+                                                            <span>{{ p.title|truncate(30, True) }}</span>
                                                         </div>
                                                     </div>
-                                                </a>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+
                         </div>
                     </div>
                 </div>
