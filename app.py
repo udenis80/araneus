@@ -3,6 +3,10 @@ import sqlite3
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from FDataBase import FDataBase
 from flask import Flask, render_template, url_for, request, flash, session, redirect, abort, g
+from flask_uploads import configure_uploads, UploadSet, IMAGES
+from werkzeug.utils import secure_filename
+from werkzeug.datastructures import FileStorage
+
 
 """миграции в консоли"""
 """from app import create_db"""
@@ -18,6 +22,10 @@ DEBUG = True
 app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.update(dict(DATABASE=os.path.join(app.root_path,'araneus.db')))
+app.config['UPLOADED_PHOTOS_DEST'] = 'static/images'  # Указываем путь к папке для сохранения изображений
+photos = UploadSet('photos', IMAGES)
+configure_uploads(app, photos)
+
 
 def connect_db():
 #Общая функция для соединения с БД
@@ -116,6 +124,7 @@ def addPost():
     dbase = FDataBase(db)
 
     if request.method == "POST":
+        filename = photos.save(request.files['photo'])  # Сохраняем загруженное изображение
         if len(request.form['name']) > 4 and len(request.form['post']) > 10:
             res = dbase.addPost(request.form['name'], request.form['post'], request.form['url'])
             if not res:
@@ -126,7 +135,7 @@ def addPost():
         else:
             flash('Ошибка добавления статьи', category='error')
 
-    return render_template('add_post.html',  menu=dbase.getMenu(), title="Добавление статьи")
+    return render_template('add_post.html',  menu=dbase.getMenu(), image=filename,  title="Добавление статьи")
 
 @app.route('/post/<int:id_post>/edit', methods=('GET', 'POST'))
 def edit(id_post):
